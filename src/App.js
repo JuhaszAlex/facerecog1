@@ -16,7 +16,7 @@ const particlesOptions = {
         value: 30,
         density: {
           enable: true,
-          value_area: 800,
+          value_area: 800
         }
       }
     }
@@ -118,12 +118,13 @@ onButtonSubmit = () => {
 }
 
 onRouteChange = (route) => {
-  if (route === 'signin' || 'register') {
+  if (route === 'signin') {
     this.setState(initialState)
   } else if (route === 'home') {
     this.setState({isSignedIn: true})
   }
   this.setState({route: route});
+  this.setState({isErrorOn: false});
 }
 
 
