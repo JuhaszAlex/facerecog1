@@ -32,9 +32,15 @@ class Signin extends React.Component {
 					this.props.loadUser(user);
 					this.props.onRouteChange('home');
 				} else {
-					alert('Failed to login')
+					this.props.toggleError('Failed to login!');
 				}	
 			})
+	}
+
+	afterEnter = (event) => {
+		if(event.charCode === 13) {
+			this.onSubmitSignIn();
+		}
 	}
 
 	render() {
@@ -52,7 +58,8 @@ class Signin extends React.Component {
 		        	type="email" 
 		        	name="email-address"  
 		        	id="email-address"
-		        	onChange= {this.onEmailChange} 
+		        	onChange= {this.onEmailChange}
+		        	onKeyPress={this.afterEnter} 
 		        	/>
 		      </div>
 		      <div className="mv3">
@@ -62,7 +69,8 @@ class Signin extends React.Component {
 		        	type="password" 
 		        	name="password"  
 		        	id="password"
-		        	onChange= {this.onPasswordChange} 
+		        	onChange= {this.onPasswordChange}
+		        	onKeyPress={this.afterEnter} 
 		        	/>
 		      </div>
 		    </fieldset>

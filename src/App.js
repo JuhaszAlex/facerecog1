@@ -7,12 +7,13 @@ import FaceRecognition from './components/FaceRecognition/FaceRecognition';
 import Logo from './components/Logo/Logo';
 import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm';
 import Rank from './components/Rank/Rank';
+import ErrorMsg from './components/ErrorMsg/ErrorMsg';
 import './App.css';
 
 const particlesOptions = {
     particles: {
       number: {
-        value: 50,
+        value: 30,
         density: {
           enable: true,
           value_area: 800,
@@ -27,6 +28,8 @@ const initialState = {
       box: {},
       route: 'signin',
       isSignedIn: false,
+      isErrorOn: false,
+      reason: '',
       user: {
         id: '',
         name: '',
@@ -41,6 +44,16 @@ class App extends Component {
     super();
     this.state= initialState; 
   }
+
+toggleError = (data) => {
+    this.setState({isErrorOn: true})
+    this.setState({reason: data});
+  }
+
+okButton = () => {
+  this.setState({isErrorOn: false})
+  this.setState({reason: ''});
+}
 
 loadUser = (data) => {
   this.setState({user: {
@@ -105,7 +118,7 @@ onButtonSubmit = () => {
 }
 
 onRouteChange = (route) => {
-  if (route === 'signout') {
+  if (route === 'signin' || 'register') {
     this.setState(initialState)
   } else if (route === 'home') {
     this.setState({isSignedIn: true})
@@ -113,12 +126,15 @@ onRouteChange = (route) => {
   this.setState({route: route});
 }
 
+
+
   render() {
     return (
       <div className="App">
         <Particles className='particles'
               params={particlesOptions}
         />
+       
         <Navigation isSignedIn={this.state.isSignedIn} onRouteChange={this.onRouteChange} />
         {this.state.route === 'home' 
           ?<div> 
@@ -132,10 +148,11 @@ onRouteChange = (route) => {
             </div>
           : (
             this.state.route === 'signin'
-            ? <Signin loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
-            : <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
+            ? <Signin toggleError={this.toggleError} loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
+            : <Register toggleError={this.toggleError} loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
             )
         }
+        <ErrorMsg isErrorOn={this.state.isErrorOn} reason={this.state.reason} okButton={this.okButton}/>
       </div>
     );
   }

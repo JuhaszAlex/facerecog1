@@ -37,8 +37,16 @@ class Register extends React.Component {
 				if(user.id) {
 					this.props.loadUser(user)
 					this.props.onRouteChange('home');
-				}	
+				} else {
+					this.props.toggleError('Failed to register!');
+				}
 			})
+	}
+
+	afterEnter = (event) => {
+		if(event.charCode === 13) {
+			this.onSubmitSignIn();
+		}
 	}
 
 	render() {
@@ -55,7 +63,8 @@ class Register extends React.Component {
 		        	type="text" 
 		        	name="name"  
 		        	id="name"
-		        	onChange={this.onNameChange} 
+		        	onChange={this.onNameChange}
+		        	onKeyPress={this.afterEnter} 
 		        	/>
 		      </div>
 		      <div className="mt3">
@@ -65,7 +74,8 @@ class Register extends React.Component {
 		        	type="email" 
 		        	name="email-address"  
 		        	id="email-address"
-		        	onChange={this.onEmailChange} 
+		        	onChange={this.onEmailChange}
+		        	onKeyPress={this.afterEnter} 
 		        	/>
 		      </div>
 		      <div className="mv3">
@@ -75,7 +85,8 @@ class Register extends React.Component {
 		        	type="password" 
 		        	name="password"  
 		        	id="password"
-		        	onChange={this.onPasswordChange} 
+		        	onChange={this.onPasswordChange}
+		        	onKeyPress={this.afterEnter} 
 		        	/>
 		      </div>
 		    </fieldset>
